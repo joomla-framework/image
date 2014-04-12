@@ -4,17 +4,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Image\Tests;
+
 require_once __DIR__ . '/stubs/ImageInspector.php';
 require_once __DIR__ . '/stubs/ImageFilterInspector.php';
 
-use Joomla\Image\Image;
+use Joomla\Image\Image as Image;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    Image  The testing instance.
