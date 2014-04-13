@@ -4,7 +4,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Image\Image;
+namespace Joomla\Image\Tests;
+
+use Joomla\Image\Image as Image;
 
 /**
  * Inspector for the Image class.
