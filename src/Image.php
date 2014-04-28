@@ -826,9 +826,15 @@ class Image implements LoggerAwareInterface
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
-		// Allow transparency for the new image handle.
-		imagealphablending($handle, false);
-		imagesavealpha($handle, true);
+		// Make background transparent if no external background color is provided.
+		if ($background == -1)
+		{
+			// Allow transparency for the new image handle.
+			imagealphablending($handle, false);
+			imagesavealpha($handle, true);
+
+			$background = imagecolorallocatealpha($handle , 0, 0, 0, 127);
+		}
 
 		// Copy the image
 		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
