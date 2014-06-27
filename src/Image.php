@@ -411,7 +411,7 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new Image($handle);
+			$new = new static($handle);
 
 			return $new;
 
@@ -752,7 +752,7 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new Image($handle);
+			$new = new static($handle);
 
 			return $new;
 
@@ -846,7 +846,7 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new Image($handle);
+			$new = new static($handle);
 
 			return $new;
 
