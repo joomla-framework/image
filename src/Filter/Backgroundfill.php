@@ -129,7 +129,7 @@ class Backgroundfill extends ImageFilter
 		// Make sure each value is within the allowed range
 		foreach ($colors as &$value)
 		{
-			$value = max(0, min(255, (float) $value));
+			$value = max(0, min(255, (int) $value));
 		}
 
 		$colors['alpha'] = min(127, $colors['alpha']);

@@ -5,6 +5,7 @@
  */
 
 use Joomla\Image\Filter\Backgroundfill as FilterBackgroundfill;
+use Joomla\Test\TestHelper;
 
 /**
  * Test class for Image.
@@ -51,13 +52,14 @@ class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @covers   Joomla\Image\Filter\Backgroundfill::execute
+	 * @since    1.0
 	 *
-	 * @note    Because GD2 uses 7bit alpha channel, results differ slightly 
-	 *          compared to 8bit systems like Adobe Photoshop. 
-	 *          Example: GD: 171, 45, 45, Photoshop: 172, 45, 45
+	 * @note     Because GD2 uses 7bit alpha channel, results differ slightly
+	 *           compared to 8bit systems like Adobe Photoshop.
+	 *           Example: GD: 171, 45, 45, Photoshop: 172, 45, 45
 	 *
-	 * @note    To test alpha, use imagecolorsforindex($imageHandle, $color);
+	 * @note     To test alpha, use imagecolorsforindex($imageHandle, $color);
 	 */
 	public function testExecute()
 	{
@@ -97,6 +99,7 @@ class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers   Joomla\Image\Filter\Backgroundfill::execute
 	 * @since   1.0
 	 *
 	 * @expectedException  InvalidArgumentException
@@ -115,5 +118,69 @@ class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
 		$filter = new FilterBackgroundfill($imageHandle);
 
 		$filter->execute(array());
+	}
+
+	/**
+	 * Test data for the ImageFilterBackgroundFill::sanitizeColor method.
+	 *
+	 * @return  array
+	 *
+	 * @since          1.0
+	 *
+	 */
+	public function dataSanitizeColor()
+	{
+		return array(
+			array(0, 0, 0, 0, 0),
+			array("#000000", 0, 0, 0, 0),
+			array("#FF0000", 255, 0, 0, 0),
+			array("#FFFF00", 255, 255, 0, 0),
+			array("#FFFFFF", 255, 255, 255, 0),
+			array("#FFFFFFFF", 255, 255, 255, 0),
+			array("#000000FF", 0, 0, 0, 0),
+			array("#00000000", 0, 0, 0, 127),
+			array("#000000AA", 0, 0, 0, 42),
+			array("#000000AA", 0, 0, 0, 42),
+			array(
+				array(
+					'red' => -5,
+					'green' => 0,
+					'blue' => 300,
+					'alpha' => 300
+				),
+				0, 0, 255, 127
+			),
+		);
+	}
+
+	/**
+	 * Tests the ImageFilterBackgroundFill::sanitizeColor method.
+	 *
+	 * @param   mixed  $color  Color in format of string '#aarrggbb' or as a array
+	 * @param   int    $red    Sanitized red color
+	 * @param   int    $green  Sanitized green color
+	 * @param   int    $blue   Sanitized blue color
+	 * @param   int    $alpha  Sanitized alpha color
+	 *
+	 * @return  void
+	 *
+	 * @covers   Joomla\Image\Filter\Backgroundfill::sanitizeColor
+	 * @dataProvider   dataSanitizeColor
+	 * @since          1.0
+	 */
+	public function testSanitizeColor($color, $red, $green, $blue, $alpha)
+	{
+		$imageHandle = imagecreatetruecolor(100, 100);
+		$filter = new FilterBackgroundfill($imageHandle);
+
+		$this->assertEquals(
+			array(
+				'red'   => $red,
+				'green' => $green,
+				'blue'  => $blue,
+				'alpha' => $alpha
+			),
+			TestHelper::invoke($filter, 'sanitizeColor', $color)
+		);
 	}
 }
