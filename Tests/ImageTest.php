@@ -54,9 +54,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Data for prepareDimensions method.  Don't put percentages in here.  We test elsewhere that
-	 * percentages get sanitized into appropriate integer values based on scale.  Here we just want
-	 * to test the logic that calculates scale dimensions.
+	 * Data for Joomla\Image\Image::prepareDimensions method.
+	 *
+	 * Don't put percentages in here.  We test elsewhere that percentages get sanitized into 
+	 * appropriate integer values based on scale. Here we just want to test the logic that 
+	 * calculates scale dimensions.
 	 *
 	 * @return  array
 	 *
@@ -97,9 +99,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Data for crop method.  Don't put percentages in here.  We test elsewhere that percentages get
-	 * sanitized into appropriate integer values based on scale.  Here we just want to test the logic
-	 * that actually crops the image.
+	 * Data for Joomla\Image\Image::crop method
+	 *
+  	 * Don't put percentages in here.  We test elsewhere that percentages get
+	 * sanitized into appropriate integer values based on scale.  
+	 * Here we just want to test the logic that actually crops the image.
 	 *
 	 * @return  array
 	 *
@@ -132,9 +136,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::__construct method.
+	 * Test the Joomla\Image\Image::__construct method.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::__construct
 	 *
 	 * @since   1.0
 	 */
@@ -157,11 +163,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::loadFile to makes sure images are loaded properly.  In this case we
-	 * are taking the simple approach of loading an image file and asserting that the dimensions
-	 * are correct.
+	 * Test the Joomla\Image\Image::loadFile method
+	 *
+	 * Makes sure image files are loaded correctly
+	 *
+	 * In this case we are taking the simple approach of loading an image file 
+	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::__loadFile
 	 *
 	 * @since   1.0
 	 */
@@ -179,11 +190,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::loadFile to makes sure GIF images are loaded properly.  In this case we
-	 * are taking the simple approach of loading an image file and asserting that the dimensions
-	 * are correct.
+	 * Test the Joomla\Image\Image::loadFile method
+	 *
+	 * Makes sure GIF images are loaded correctly
+	 *
+	 * In this case we are taking the simple approach of loading an image file 
+	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
+	 * 
+	 * @covers  Joomla\Image\Image::__loadFile
 	 *
 	 * @since   1.0
 	 */
@@ -201,11 +217,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::loadFile to makes sure PNG images are loaded properly.  In this case we
-	 * are taking the simple approach of loading an image file and asserting that the dimensions
-	 * are correct.
+	 * Test the Joomla\Image\Image::loadFile method 
+	 *
+	 * Makes sure PNG images are loaded properly.  
+	 *
+	 * In this case we are taking the simple approach of loading an image file 
+	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::loadFile
 	 *
 	 * @since   1.0
 	 */
@@ -223,12 +244,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::loadFile to makes sure XCF images are not loaded properly.  In this case we
-	 * are taking the simple approach of loading an image file and asserting that the dimensions
-	 * are correct.
+	 * Test the Joomla\Image\Image::loadFile method
+	 *
+	 * Makes sure BMP images are not loaded properly.
 	 *
 	 * @return  void
 	 *
+	 * @covers  Joomla\Image\Image::loadFile
 	 * @since   1.0
 	 *
 	 * @expectedException  InvalidArgumentException
@@ -241,10 +263,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::loadFile to makes sure if a bogus image is given it throws an exception.
+	 * Test the Joomla\Image\Image::loadFile method
+	 *
+	 * Makes sure if a bogus image is given it throws an exception.
 	 *
 	 * @return  void
 	 *
+	 * @covers  Joomla\Image\Image::loadFile
 	 * @expectedException  InvalidArgumentException
 	 * @since   1.0
 	 */
@@ -256,9 +281,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::resize to make sure images are resized properly.
+	 * Test the Joomla\Image\Image::resize method
+	 *
+	 * Makes sure images are resized properly.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::resize
 	 *
 	 * @since   1.0
 	 */
@@ -276,10 +305,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::resize to make sure images are resized properly and
+	 * Test the Joomla\Image\Image::resize method
+	 * 
+	 * Make sure images are resized properly and
 	 * transparency is properly set.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::resize
 	 *
 	 * @since   1.0
 	 */
@@ -303,9 +336,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::resize to make sure images are resized properly - no file loaded.
+	 * Test the Joomla\Image\Image::resize method
+	 *
+	 * Make sure images are resized properly - no file loaded.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::resize
 	 *
 	 * @since   1.0
 	 *
@@ -320,12 +357,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::toFile when there is no image loaded.  This should throw a LogicException
-	 * since we cannot write an image out to file that we don't even have yet.
+	 * Test the Joomla\Image\Image::toFile method
+	 * 
+	 * Should throw a LogicException since we cannot write 
+	 * an image out to file that we don't even have yet.
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
+	 *
+	 * @covers  Joomla\Image\Image::toFile
+	 *
 	 * @since   1.0
 	 */
 	public function testToFileInvalid()
@@ -337,12 +379,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::toFile to make sure that a new image is properly written
-	 * to file, when performing this test using a lossy compression we are not able
+	 * Test the Joomla\Image\Image::toFile method
+	 * 
+	 * Makes sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::toFile
 	 *
 	 * @since   1.0
 	 */
@@ -372,12 +419,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::toFile to make sure that a new image is properly written
-	 * to file, when performing this test using a lossy compression we are not able
+	 * Test the Joomla\Image\Image::toFile method
+	 *
+	 * Make sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::toFile
 	 *
 	 * @since   1.0
 	 */
@@ -407,12 +459,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::toFile to make sure that a new image is properly written
-	 * to file, when performing this test using a lossy compression we are not able
+	 * Test the Joomla\Image\Image::toFile method
+	 *
+	 * Makes sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::toFile
 	 *
 	 * @since   1.0
 	 */
@@ -442,12 +499,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::toFile to make sure that a new image is properly written
-	 * to file, when performing this test using a lossy compression we are not able
+	 * Test the Joomla\Image\Image::toFile method
+	 *
+	 * Make sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
 	 * to open and save the same image and then compare the checksums as the checksums
 	 * may have changed. Therefore we are limited to comparing the image properties.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::toFile
 	 *
 	 * @since   1.0
 	 */
@@ -477,9 +539,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getFilterInstance method to make sure it behaves correctly
+	 * Test the Joomla\Image\Image::getFilterInstance method 
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::getFilterInstance
 	 *
 	 * @since   1.0
 	 */
@@ -495,10 +559,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getHeight method to make sure it gives the correct
-	 * property from the source image.
+	 * Test the Joomla\Image\Image::getHeight method
+	 *
+	 * Make sure it gives the correct property from the source image.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::getHeight
 	 *
 	 * @since   1.0
 	 */
@@ -514,11 +581,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getHeight method without a loaded image.
+	 * Test the Joomla\Image\Image::getHeight method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
+	 *
+	 * @covers  Joomla\Image\Image::getHeight
+	 *
 	 * @since   1.0
 	 */
 	public function testGetHeightWithoutLoadedImage()
@@ -530,10 +600,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getWidth method to make sure it gives the correct
-	 * property from the source image
+	 * Test the Joomla\Image\Image::getWidth method 
+	 *
+	 * Make sure it gives the correct property from the source image
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::getWidth
 	 *
 	 * @since   1.0
 	 */
@@ -549,11 +622,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getWidth method without a loaded image.
+	 * Test the Joomla\Image\Image::getWidth method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
+	 *
+	 * @covers  Joomla\Image\Image::getWidth
+	 *
 	 * @since   1.0
 	 */
 	public function testGetWidthWithoutLoadedImage()
@@ -565,11 +641,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::getImageFileProperties method without a valid image file.
+	 * Test the Joomla\Image\Image::getImageFileProperties method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  Joomla\Image\Image::getImageFileProperties
+	 *
 	 * @since   1.0
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
@@ -578,11 +657,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::isTransparent method without a loaded image.
+	 * Test the Joomla\Image\Image::isTransparent method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
+	 *
+	 * @covers  Joomla\Image\Image::isTransparent
+	 *
 	 * @since   1.0
 	 */
 	public function testIsTransparentWithoutLoadedImage()
@@ -594,10 +676,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::isTransparent method to make sure it gives the correct
-	 * result if the image has an alpha channel.
+	 * Test the Joomla\Image\Image::isTransparent method 
+	 *
+	 * Make sure it gives the correct result if the image has an alpha channel.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::isTransparent
 	 *
 	 * @since   1.0
 	 */
@@ -617,10 +702,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::isTransparent method to make sure it gives the correct
-	 * result if the image does not haave an alpha channel.
+	 * Test the Joomla\Image\Image::isTransparent method
+	 *
+	 * Make sure it gives the correct result if the image does not haave an alpha channel.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::isTransparent
 	 *
 	 * @since   1.0
 	 */
@@ -637,11 +725,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::crop method without a loaded image.
+	 * Test the Joomla\Image\Image::crop method
 	 *
 	 * @return  void
 	 *
+	 * @covers  Joomla\Image\Image::crop
+	 *
 	 * @expectedException  LogicException
+	 *
 	 * @since   1.0
 	 */
 	public function testCropWithoutLoadedImage()
@@ -653,11 +744,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::crop() method.  To test this we create an image that contains a red rectangle
-	 * of a certain size [Rectangle1].  Inside of that rectangle [Rectangle1] we draw a white
-	 * rectangle [Rectangle2] that is exactly two pixels smaller in width and height than its parent
-	 * rectangle [Rectangle1].  Then we crop the image to the exact coordinates of Rectangle1 and
-	 * verify both it's corners and the corners inside of it.
+	 * Tests the Joomla\Image\Image::crop() method
+	 *
+	 * To test this we create an image that contains a red rectangle of a certain size [Rectangle1].
+	 *
+	 * Inside of that rectangle [Rectangle1] we draw a white rectangle [Rectangle2] that is 
+	 * exactly two pixels smaller in width and height than its parent rectangle [Rectangle1].
+	 * Then we crop the image to the exact coordinates of Rectangle1 and verify both it's 
+	 * corners and the corners inside of it.
 	 *
 	 * @param   mixed    $startHeight  The original image height.
 	 * @param   mixed    $startWidth   The original image width.
@@ -670,6 +764,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getCropData
+	 *
+	 * @covers  Joomla\Image\Image::crop
+	 *
 	 * @since   1.0
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
@@ -722,11 +819,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::rotate method without a loaded image.
+	 * Test the Joomla\Image\Image::rotate method without a loaded image.
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
+	 *
+	 * @covers  Joomla\Image\Image::rotate
+	 *
 	 * @since   1.0
 	 */
 	public function testRotateWithoutLoadedImage()
@@ -738,12 +838,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::rotate() method.  To test this we create an image that contains a red
-	 * horizontal line in the middle of the image, and a white vertical line in the middle of the
-	 * image.  Once the image is rotated 90 degrees we test the end points of the lines to ensure that
-	 * the colors have swapped.
+	 * Tests the Joomla\Image\Image::rotate() method
+	 *
+	 * Create an image that contains a red horizontal line in the middle of the image, 
+	 * and a white vertical line in the middle of the image.  Once the image is rotated 90 degrees 
+	 * we test the end points of the lines to ensure that the colors have swapped.
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::rotate
 	 *
 	 * @since   1.0
 	 */
@@ -779,9 +882,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::filter method to make sure it behaves correctly
+	 * Test the Joomla\Image\Image::filter
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::filter
 	 *
 	 * @since   1.0
 	 */
@@ -805,11 +910,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::filter method without a loaded image.
+	 * Test the Joomla\Image\Image::filter method
 	 *
 	 * @return  void
 	 *
+	 * @covers  Joomla\Image\Image::filter
+	 *
 	 * @expectedException  LogicException
+	 *
 	 * @since   1.0
 	 */
 	public function testFilterWithoutLoadedImage()
@@ -821,11 +929,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Image::filter method with a bogus filer type so that we expect an exception.
+	 * Test the Joomla\Image\Image::filter method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  RuntimeException
+	 *
+	 * @covers  Joomla\Image\Image::filter
+	 *
 	 * @since   1.0
 	 */
 	public function testFilterWithInvalidFilterType()
@@ -837,7 +948,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::prepareDimensions method.
+	 * Tests the Joomla\Image\Image::prepareDimensions method
 	 *
 	 * @param   mixed    $inputHeight     The height input.
 	 * @param   mixed    $inputWidth      The width input.
@@ -850,6 +961,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getPrepareDimensionsData
+	 *
+	 * @covers  Joomla\Image\Image::prepareDimensions
+	 *
 	 * @since   1.0
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
@@ -868,11 +982,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::prepareDimensions method with a bogus scale so that an exception is thrown.
+	 * Tests the Joomla\Image\Image::prepareDimensions method
 	 *
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
+	 *
+	 * @covers  Joomla\Image\Image::prepareDimensions
+	 *
 	 * @since   1.0
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
@@ -887,7 +1004,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::sanitizeHeight method.
+	 * Tests the Joomla\Image\Image::sanitizeHeight method
 	 *
 	 * @param   mixed    $inputHeight     The height input.
 	 * @param   mixed    $inputWidth      The width input.
@@ -899,6 +1016,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeDimensionData
+	 *
+	 * @covers  Joomla\Image\Image::sanitizeHeight
+	 *
 	 * @since   1.0
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
@@ -914,7 +1034,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::sanitizeWidth method.
+	 * Tests the Joomla\Image\Image::sanitizeWidth method
 	 *
 	 * @param   mixed    $inputHeight     The height input.
 	 * @param   mixed    $inputWidth      The width input.
@@ -926,6 +1046,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeDimensionData
+	 *
+	 * @covers  Joomla\Image\Image::sanitizeWidth
+	 *
 	 * @since   1.0
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
@@ -941,7 +1064,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::sanitizeOffset method.
+	 * Tests the Joomla\Image\Image::sanitizeOffset method
 	 *
 	 * @param   mixed    $input     The input offset.
 	 * @param   integer  $expected  The expected result offest.
@@ -949,6 +1072,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getSanitizeOffsetData
+	 *
+	 * @covers  Joomla\Image\Image::sanitizeOffset
+	 *
 	 * @since   1.0
 	 */
 	public function testSanitizeOffset($input, $expected)
@@ -961,9 +1087,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::destory method
+	 * Tests the Joomla\Image\Image::destory method
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::destroy
 	 *
 	 * @since   1.0
 	 */
@@ -980,9 +1108,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::getLogger for a NullLogger.
+	 * Tests the Joomla\Image::getLogger method
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::getLogger
+	 * @covers  Joomla\Image\Image::getNullLogger
 	 *
 	 * @since   1.0
 	 */
@@ -998,9 +1129,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the Image::setLogger and Image::getLogger.
+	 * Tests the Joomla\Image\Image::setLogger
 	 *
 	 * @return  void
+	 *
+	 * @covers  Joomla\Image\Image::setLogger
+	 * @covers  Joomla\Image\Image::getLogger
 	 *
 	 * @since   1.0
 	 */
