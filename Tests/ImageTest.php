@@ -438,15 +438,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileGif);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/gif');
-		$this->assertTrue($b->type == IMAGETYPE_GIF);
+		$this->assertEquals('image/gif', $b->mime);
+		$this->assertEquals(IMAGETYPE_GIF, $b->type);
 
 		// Clean up after ourselves.
 		unlink($outFileGif);
@@ -478,15 +478,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFilePng);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/png');
-		$this->assertTrue($b->type == IMAGETYPE_PNG);
-		$this->assertTrue($b->channels == null);
+		$this->assertEquals('image/png', $b->mime);
+		$this->assertEquals(IMAGETYPE_PNG, $b->type);
+		$this->assertNull($b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFilePng);
@@ -520,13 +520,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileJpg);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileJpg);
@@ -560,13 +560,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileDefault);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileDefault);
@@ -611,7 +611,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		// Create a new ImageInspector object from the image handle.
 		$image = new ImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getHeight() == 42), 'Line: ' . __LINE__);
+		$this->assertequals(
+			42,
+			$image->getHeight(),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
@@ -652,7 +656,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		// Create a new ImageInspector object from the image handle.
 		$image = new ImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getWidth() == 108), 'Line: ' . __LINE__);
+		$this->assertEquals(
+			108,
+			$image->getWidth(),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
@@ -992,25 +1000,55 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image->crop($cropWidth, $cropHeight, $actualCropLeft, $actualCropTop, false);
 
 		// Verify that the cropped image is the correct size.
-		$this->assertEquals($cropHeight, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals($cropWidth, imagesx($image->getClassProperty('handle')));
+		$this->assertEquals(
+			$cropHeight,
+			imagesy($image->getClassProperty('handle'))
+		);
+		$this->assertEquals(
+			$cropWidth,
+			imagesx($image->getClassProperty('handle'))
+		);
 
 		// Validate the correct pixels for the corners.
 		// Top/Left
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, 0));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, 1));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 0, 0)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 1, 1)
+		);
 
 		// Top/Right
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1)));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2)));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1))
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2))
+		);
 
 		// Bottom/Left
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1)
+		);
 
 		// Bottom/Right
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1)));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2)));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1))
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2))
+		);
 	}
 
 	/**
@@ -1068,12 +1106,24 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
 		// Validate the correct pixels for the ends of the lines.
 		// Red line.
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 5));
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 95));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 50, 5)
+		);
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 50, 95)
+		);
 
 		// White line.
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 5, 50));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 95, 50));
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 5, 50)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 95, 50)
+		);
 	}
 
 	/**
@@ -1225,7 +1275,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector($imageHandle);
 
 		// Validate the correct response.
-		$this->assertEquals($expectedHeight, $image->sanitizeHeight($inputHeight, $inputWidth));
+		$this->assertEquals(
+			$expectedHeight,
+			$image->sanitizeHeight($inputHeight, $inputWidth)
+		);
 	}
 
 	/**
@@ -1255,7 +1308,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector($imageHandle);
 
 		// Validate the correct response.
-		$this->assertEquals($expectedWidth, $image->sanitizeWidth($inputWidth, $inputHeight));
+		$this->assertEquals(
+			$expectedWidth,
+			$image->sanitizeWidth($inputWidth, $inputHeight)
+		);
 	}
 
 	/**
@@ -1278,7 +1334,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector;
 
 		// Validate the correct response.
-		$this->assertEquals($expected, $image->sanitizeOffset($input));
+		$this->assertEquals(
+			$expected,
+			$image->sanitizeOffset($input)
+		);
 	}
 
 	/**
