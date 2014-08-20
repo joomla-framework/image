@@ -68,7 +68,10 @@ class ImageFilterTest extends PHPUnit_Framework_TestCase
 
 		$filter = new FilterBrightness($imageHandle);
 
-		$this->assertEquals(TestHelper::getValue($filter, 'handle'), $imageHandle);
+		$this->assertEquals(
+			$imageHandle,
+			TestHelper::getValue($filter, 'handle')
+		);
 	}
 
 	/**

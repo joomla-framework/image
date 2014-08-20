@@ -833,7 +833,7 @@ class Image implements LoggerAwareInterface
 			imagealphablending($handle, false);
 			imagesavealpha($handle, true);
 
-			$background = imagecolorallocatealpha($handle , 0, 0, 0, 127);
+			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
 		}
 
 		// Copy the image
@@ -896,11 +896,10 @@ class Image implements LoggerAwareInterface
 			case IMAGETYPE_PNG:
 				return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				break;
-
-			case IMAGETYPE_JPEG:
-			default:
-				return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
+
+		// Case IMAGETYPE_JPEG & default
+		return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 	}
 
 	/**

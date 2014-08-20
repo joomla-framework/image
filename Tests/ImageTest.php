@@ -10,6 +10,7 @@ require_once __DIR__ . '/stubs/ImageInspector.php';
 require_once __DIR__ . '/stubs/ImageFilterInspector.php';
 
 use Joomla\Image\Image as Image;
+use Joomla\Test\TestHelper;
 
 /**
  * Test class for Image.
@@ -44,6 +45,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
 		$this->instance = new Image;
 
+		// 500*341 resolution
 		$this->testFile = __DIR__ . '/stubs/koala.jpg';
 
 		$this->testFileGif = __DIR__ . '/stubs/koala.gif';
@@ -56,8 +58,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Data for Joomla\Image\Image::prepareDimensions method.
 	 *
-	 * Don't put percentages in here.  We test elsewhere that percentages get sanitized into 
-	 * appropriate integer values based on scale. Here we just want to test the logic that 
+	 * Don't put percentages in here.  We test elsewhere that percentages get sanitized into
+	 * appropriate integer values based on scale. Here we just want to test the logic that
 	 * calculates scale dimensions.
 	 *
 	 * @return  array
@@ -101,8 +103,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Data for Joomla\Image\Image::crop method
 	 *
-  	 * Don't put percentages in here.  We test elsewhere that percentages get
-	 * sanitized into appropriate integer values based on scale.  
+	 * Don't put percentages in here.  We test elsewhere that percentages get
+	 * sanitized into appropriate integer values based on scale.
 	 * Here we just want to test the logic that actually crops the image.
 	 *
 	 * @return  array
@@ -115,7 +117,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 			// Note: startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
 			array(100, 100, 10, 10, 25, 25, false),
 			array(100, 100, 25, 25, 40, 31, true),
-			array(225, 432, 45, 11, 123, 12, true)
+			array(225, 432, 45, 11, 123, 12, true),
+			array(100, 100, 10, 10, null, 25, false),
+			array(100, 100, 10, 10, 25, null, false),
 		);
 	}
 
@@ -167,7 +171,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * Makes sure image files are loaded correctly
 	 *
-	 * In this case we are taking the simple approach of loading an image file 
+	 * In this case we are taking the simple approach of loading an image file
 	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
@@ -194,11 +198,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * Makes sure GIF images are loaded correctly
 	 *
-	 * In this case we are taking the simple approach of loading an image file 
+	 * In this case we are taking the simple approach of loading an image file
 	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @covers  Joomla\Image\Image::__loadFile
 	 *
 	 * @since   1.0
@@ -217,11 +221,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::loadFile method 
+	 * Test the Joomla\Image\Image::loadFile method
 	 *
-	 * Makes sure PNG images are loaded properly.  
+	 * Makes sure PNG images are loaded properly.
 	 *
-	 * In this case we are taking the simple approach of loading an image file 
+	 * In this case we are taking the simple approach of loading an image file
 	 * and asserting that the dimensions are correct.
 	 *
 	 * @return  void
@@ -302,11 +306,17 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		// Verify that the resizeded image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
+
+		$image->resize(1000, 682, false, ImageInspector::SCALE_FIT);
+
+		// Verify that the resizeded image is the correct size.
+		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 	}
 
 	/**
 	 * Test the Joomla\Image\Image::resize method
-	 * 
+	 *
 	 * Make sure images are resized properly and
 	 * transparency is properly set.
 	 *
@@ -357,10 +367,34 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::toFile method
-	 * 
-	 * Should throw a LogicException since we cannot write 
-	 * an image out to file that we don't even have yet.
+	 * Test the Image::resize to make sure images are resized properly.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function testCropResize()
+	{
+		// Get a new Image inspector.
+		$image = new ImageInspector;
+		$image->loadFile($this->testFile);
+
+		$image->cropResize(500 * 2, 341 * 2, false);
+
+		// Verify that the croped resizeded image is the correct size.
+		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500 * 2, imagesx($image->getClassProperty('handle')));
+
+		$image->cropResize(500 * 3, 341 * 2, false);
+
+		// Verify that the croped resizeded image is the correct size.
+		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500 * 3, imagesx($image->getClassProperty('handle')));
+	}
+
+	/**
+	 * Test the Image::toFile when there is no image loaded.  This should throw a LogicException
+	 * since we cannot write an image out to file that we don't even have yet.
 	 *
 	 * @return  void
 	 *
@@ -380,7 +414,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the Joomla\Image\Image::toFile method
-	 * 
+	 *
 	 * Makes sure that a new image is properly written to file.
 	 *
 	 * When performing this test using a lossy compression we are not able
@@ -404,15 +438,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileGif);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/gif');
-		$this->assertTrue($b->type == IMAGETYPE_GIF);
+		$this->assertEquals('image/gif', $b->mime);
+		$this->assertEquals(IMAGETYPE_GIF, $b->type);
 
 		// Clean up after ourselves.
 		unlink($outFileGif);
@@ -444,15 +478,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFilePng);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
 
 		// Assert that the properties that should be different are different.
-		$this->assertTrue($b->mime == 'image/png');
-		$this->assertTrue($b->type == IMAGETYPE_PNG);
-		$this->assertTrue($b->channels == null);
+		$this->assertEquals('image/png', $b->mime);
+		$this->assertEquals(IMAGETYPE_PNG, $b->type);
+		$this->assertNull($b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFilePng);
@@ -486,13 +520,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileJpg);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileJpg);
@@ -526,20 +560,20 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$b = Image::getImageFileProperties($outFileDefault);
 
 		// Assert that properties that should be equal are equal.
-		$this->assertTrue($a->width == $b->width);
-		$this->assertTrue($a->height == $b->height);
-		$this->assertTrue($a->attributes == $b->attributes);
-		$this->assertTrue($a->bits == $b->bits);
-		$this->assertTrue($a->mime == $b->mime);
-		$this->assertTrue($a->type == $b->type);
-		$this->assertTrue($a->channels == $b->channels);
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
 
 		// Clean up after ourselves.
 		unlink($outFileDefault);
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::getFilterInstance method 
+	 * Test the Joomla\Image\Image::getFilterInstance method
 	 *
 	 * @return  void
 	 *
@@ -577,7 +611,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		// Create a new ImageInspector object from the image handle.
 		$image = new ImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getHeight() == 42), 'Line: ' . __LINE__);
+		$this->assertequals(
+			42,
+			$image->getHeight(),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
@@ -600,7 +638,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::getWidth method 
+	 * Test the Joomla\Image\Image::getWidth method
 	 *
 	 * Make sure it gives the correct property from the source image
 	 *
@@ -618,7 +656,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		// Create a new ImageInspector object from the image handle.
 		$image = new ImageInspector($imageHandle);
 
-		$this->assertTrue(($image->getWidth() == 108), 'Line: ' . __LINE__);
+		$this->assertEquals(
+			108,
+			$image->getWidth(),
+			'Line: ' . __LINE__
+		);
 	}
 
 	/**
@@ -657,7 +699,154 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::isTransparent method
+	 * Test the Image::generateThumbs method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   1.0
+	 */
+	public function testGenerateThumbsWithoutLoadedImage()
+	{
+		// Create a new Image object without loading an image.
+		$image = new Image;
+
+		$thumbs = $image->generateThumbs('50x38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method with invalid size.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  InvalidArgumentException
+	 * @since   1.0
+	 */
+	public function testGenerateThumbsWithInvalidSize()
+	{
+		// Create a new Image object without loading an image.
+		$image = new Image;
+		$image->loadFile($this->testFile);
+
+		$thumbs = $image->generateThumbs('50*38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function testGenerateThumbs()
+	{
+		// Get a new Image inspector.
+		$image = new ImageInspector;
+		$image->loadFile($this->testFile);
+
+		$thumbs = $image->generateThumbs('50x38');
+
+		// Verify that the resizeded image is the correct size.
+		$this->assertEquals(
+			34,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+
+		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP);
+
+		// Verify that the resizeded image is the correct size.
+		$this->assertEquals(
+			38,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+
+		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP_RESIZE);
+
+		// Verify that the resizeded image is the correct size.
+		$this->assertEquals(
+			38,
+			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+		$this->assertEquals(
+			50,
+			imagesx(TestHelper::getValue($thumbs[0], 'handle'))
+		);
+	}
+
+	/**
+	 * Test the Image::createThumbs method without a loaded image.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  LogicException
+	 * @since   1.0
+	 */
+	public function testCreateThumbsWithoutLoadedImage()
+	{
+		// Create a new Image object without loading an image.
+		$image = new Image;
+
+		$thumbs = $image->createThumbs('50x38');
+	}
+
+	/**
+	 * Test the Image::generateThumbs method with invalid size.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  InvalidArgumentException
+	 * @since   1.0
+	 */
+	public function testGenerateThumbsWithInvalidFolder()
+	{
+		// Create a new Image object without loading an image.
+		$image = new Image;
+		$image->loadFile($this->testFile);
+
+		$thumbs = $image->createThumbs('50x38', Image::SCALE_INSIDE, '/foo');
+	}
+
+	/**
+	 * Test the Image::createThumbs method.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function testCreateThumbs()
+	{
+		// Get a new Image inspector.
+		$image = new ImageInspector;
+		$image->loadFile($this->testFile);
+
+		$thumbs = $image->createThumbs('50x38', ImageInspector::CROP);
+		$outFileGif = TestHelper::getValue($thumbs[0], 'path');
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileGif);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals(50, $b->width);
+		$this->assertEquals(38, $b->height);
+		$this->assertEquals($a->bits, $b->bits);
+		$this->assertEquals($a->channels, $b->channels);
+		$this->assertEquals($a->mime, $b->mime);
+		$this->assertEquals($a->type, $b->type);
+		$this->assertEquals($a->channels, $b->channels);
+
+		unlink($outFileGif);
+	}
+
+	/**
+	 * Test the Image::isTransparent method without a loaded image.
 	 *
 	 * @return  void
 	 *
@@ -676,7 +865,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the Joomla\Image\Image::isTransparent method 
+	 * Test the Joomla\Image\Image::isTransparent method
 	 *
 	 * Make sure it gives the correct result if the image has an alpha channel.
 	 *
@@ -748,9 +937,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * To test this we create an image that contains a red rectangle of a certain size [Rectangle1].
 	 *
-	 * Inside of that rectangle [Rectangle1] we draw a white rectangle [Rectangle2] that is 
+	 * Inside of that rectangle [Rectangle1] we draw a white rectangle [Rectangle2] that is
 	 * exactly two pixels smaller in width and height than its parent rectangle [Rectangle1].
-	 * Then we crop the image to the exact coordinates of Rectangle1 and verify both it's 
+	 * Then we crop the image to the exact coordinates of Rectangle1 and verify both it's
 	 * corners and the corners inside of it.
 	 *
 	 * @param   mixed    $startHeight  The original image height.
@@ -784,6 +973,20 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$red = imagecolorallocate($imageHandle, 255, 0, 0);
 		$white = imagecolorallocate($imageHandle, 255, 255, 255);
 
+		$actualCropTop = $cropTop;
+
+		if (is_null($cropTop))
+		{
+			$cropTop = round(($startHeight - $cropHeight) / 2);
+		}
+
+		$actualCropLeft = $cropLeft;
+
+		if (is_null($cropLeft))
+		{
+			$cropLeft = round(($startWidth - $cropWidth) / 2);
+		}
+
 		// Draw a red rectangle in the crop area.
 		imagefilledrectangle($imageHandle, $cropLeft, $cropTop, ($cropLeft + $cropWidth), ($cropTop + $cropHeight), $red);
 
@@ -794,28 +997,58 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector($imageHandle);
 
 		// Crop the image to specifications.
-		$image->crop($cropWidth, $cropHeight, $cropLeft, $cropTop, false);
+		$image->crop($cropWidth, $cropHeight, $actualCropLeft, $actualCropTop, false);
 
 		// Verify that the cropped image is the correct size.
-		$this->assertEquals($cropHeight, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals($cropWidth, imagesx($image->getClassProperty('handle')));
+		$this->assertEquals(
+			$cropHeight,
+			imagesy($image->getClassProperty('handle'))
+		);
+		$this->assertEquals(
+			$cropWidth,
+			imagesx($image->getClassProperty('handle'))
+		);
 
 		// Validate the correct pixels for the corners.
 		// Top/Left
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, 0));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, 1));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 0, 0)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 1, 1)
+		);
 
 		// Top/Right
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1)));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2)));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 0, ($cropHeight - 1))
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 1, ($cropHeight - 2))
+		);
 
 		// Bottom/Left
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), 0)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), 1)
+		);
 
 		// Bottom/Right
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1)));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2)));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 1), ($cropHeight - 1))
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), ($cropWidth - 2), ($cropHeight - 2))
+		);
 	}
 
 	/**
@@ -840,8 +1073,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * Tests the Joomla\Image\Image::rotate() method
 	 *
-	 * Create an image that contains a red horizontal line in the middle of the image, 
-	 * and a white vertical line in the middle of the image.  Once the image is rotated 90 degrees 
+	 * Create an image that contains a red horizontal line in the middle of the image,
+	 * and a white vertical line in the middle of the image.  Once the image is rotated 90 degrees
 	 * we test the end points of the lines to ensure that the colors have swapped.
 	 *
 	 * @return  void
@@ -873,12 +1106,24 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
 		// Validate the correct pixels for the ends of the lines.
 		// Red line.
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 5));
-		$this->assertEquals($red, imagecolorat($image->getClassProperty('handle'), 50, 95));
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 50, 5)
+		);
+		$this->assertEquals(
+			$red,
+			imagecolorat($image->getClassProperty('handle'), 50, 95)
+		);
 
 		// White line.
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 5, 50));
-		$this->assertEquals($white, imagecolorat($image->getClassProperty('handle'), 95, 50));
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 5, 50)
+		);
+		$this->assertEquals(
+			$white,
+			imagecolorat($image->getClassProperty('handle'), 95, 50)
+		);
 	}
 
 	/**
@@ -1030,7 +1275,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector($imageHandle);
 
 		// Validate the correct response.
-		$this->assertEquals($expectedHeight, $image->sanitizeHeight($inputHeight, $inputWidth));
+		$this->assertEquals(
+			$expectedHeight,
+			$image->sanitizeHeight($inputHeight, $inputWidth)
+		);
 	}
 
 	/**
@@ -1060,7 +1308,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector($imageHandle);
 
 		// Validate the correct response.
-		$this->assertEquals($expectedWidth, $image->sanitizeWidth($inputWidth, $inputHeight));
+		$this->assertEquals(
+			$expectedWidth,
+			$image->sanitizeWidth($inputWidth, $inputHeight)
+		);
 	}
 
 	/**
@@ -1083,7 +1334,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 		$image = new ImageInspector;
 
 		// Validate the correct response.
-		$this->assertEquals($expected, $image->sanitizeOffset($input));
+		$this->assertEquals(
+			$expected,
+			$image->sanitizeOffset($input)
+		);
 	}
 
 	/**
