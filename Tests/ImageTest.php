@@ -371,7 +371,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCropResize()
 	{
@@ -704,7 +704,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateThumbsWithoutLoadedImage()
 	{
@@ -720,7 +720,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateThumbsWithInvalidSize()
 	{
@@ -736,7 +736,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateThumbs()
 	{
@@ -787,7 +787,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @expectedException  LogicException
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCreateThumbsWithoutLoadedImage()
 	{
@@ -803,7 +803,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testGenerateThumbsWithInvalidFolder()
 	{
@@ -819,7 +819,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCreateThumbs()
 	{
