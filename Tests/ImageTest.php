@@ -1367,7 +1367,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\Image\Image::getLogger
-	 * @covers  Joomla\Image\Image::getNullLogger
 	 *
 	 * @since   1.0
 	 */
