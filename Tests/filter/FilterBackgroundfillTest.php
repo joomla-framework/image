@@ -125,7 +125,7 @@ class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.1.3
 	 */
 	public function dataSanitizeColor()
 	{
@@ -165,7 +165,7 @@ class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @covers         Joomla\Image\Filter\Backgroundfill::sanitizeColor
 	 * @dataProvider   dataSanitizeColor
-	 * @since          __DEPLOY_VERSION__
+	 * @since          1.1.3
 	 */
 	public function testSanitizeColor($color, $red, $green, $blue, $alpha)
 	{
