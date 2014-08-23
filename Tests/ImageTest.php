@@ -176,7 +176,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\Image\Image::__loadFile
+	 * @covers  Joomla\Image\Image::loadFile
 	 *
 	 * @since   1.0
 	 */
@@ -203,7 +203,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  Joomla\Image\Image::__loadFile
+	 * @covers  Joomla\Image\Image::loadFile
 	 *
 	 * @since   1.0
 	 */
