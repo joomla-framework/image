@@ -182,12 +182,12 @@ $imageBlob = ob_get_clean();
 
 ## Installation via Composer
 
-Add `"joomla/image": "~1.0"` to the require block in your composer.json and then run `composer install`.
+Add `"joomla/image": "2.0.*@dev"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
 	"require": {
-		"joomla/image": "~1.0"
+		"joomla/image": "2.0.*@dev"
 	}
 }
 ```
@@ -195,5 +195,5 @@ Add `"joomla/image": "~1.0"` to the require block in your composer.json and then
 Alternatively, you can simply run the following from the command line:
 
 ```sh
-composer require joomla/image "~1.0"
+composer require joomla/image "2.0.*@dev"
 ```
