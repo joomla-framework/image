@@ -392,15 +392,14 @@ class Image implements LoggerAwareInterface
 
 		if ($this->isTransparent())
 		{
-			// Get the transparent color values for the current image.
-			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocate($this->handle, 255, 255, 255);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
-			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+			
+			imagefill($handle, 0, 0, $color);
 		}
 		else
 		{
