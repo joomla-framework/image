@@ -15,7 +15,7 @@ use InvalidArgumentException;
  * Image Filter class to blurs the image using the Gaussian method.
  * To increase blur effect, the filter must be applied multiple times. This can be quite slow.
  *
- * @since  1.1.5
+ * @since  2.0
  */
 class Gaussianblur extends ImageFilter
 {
