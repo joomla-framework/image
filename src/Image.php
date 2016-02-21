@@ -99,12 +99,12 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (!isset(self::$formats[IMAGETYPE_JPEG]))
+		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
 			$info = gd_info();
-			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-			self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
+			static::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
+			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -309,7 +309,7 @@ class Image implements LoggerAwareInterface
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
 			// Parent image properties
-			$imgProperties = self::getImageFileProperties($this->getPath());
+			$imgProperties = static::getImageFileProperties($this->getPath());
 
 			foreach ($thumbs as $thumb)
 			{
@@ -411,22 +411,17 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new static($handle);
-
-			return $new;
+			return new static($handle);
 
 			// @codeCoverageIgnoreEnd
 		}
-		else
+
 		// Swap out the current handle for the new image handle.
-		{
-			// Free the memory from the current handle
-			$this->destroy();
+		$this->destroy();
 
-			$this->handle = $handle;
+		$this->handle = $handle;
 
-			return $this;
-		}
+		return $this;
 	}
 
 	/**
@@ -568,14 +563,14 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Get the image properties.
-		$properties = self::getImageFileProperties($path);
+		$properties = static::getImageFileProperties($path);
 
 		// Attempt to load the image based on the MIME-Type
 		switch ($properties->mime)
 		{
 			case 'image/gif':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_GIF]))
+				if (empty(static::$formats[IMAGETYPE_GIF]))
 				{
 					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type GIF.');
@@ -601,7 +596,7 @@ class Image implements LoggerAwareInterface
 
 			case 'image/jpeg':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_JPEG]))
+				if (empty(static::$formats[IMAGETYPE_JPEG]))
 				{
 					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type JPG.');
@@ -627,7 +622,7 @@ class Image implements LoggerAwareInterface
 
 			case 'image/png':
 				// Make sure the image type is supported.
-				if (empty(self::$formats[IMAGETYPE_PNG]))
+				if (empty(static::$formats[IMAGETYPE_PNG]))
 				{
 					// @codeCoverageIgnoreStart
 					$this->getLogger()->error('Attempting to load an image of unsupported type PNG.');
@@ -752,22 +747,17 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new static($handle);
-
-			return $new;
+			return new static($handle);
 
 			// @codeCoverageIgnoreEnd
 		}
-		else
+
 		// Swap out the current handle for the new image handle.
-		{
-			// Free the memory from the current handle
-			$this->destroy();
+		$this->destroy();
 
-			$this->handle = $handle;
+		$this->handle = $handle;
 
-			return $this;
-		}
+		return $this;
 	}
 
 	/**
@@ -846,22 +836,17 @@ class Image implements LoggerAwareInterface
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
-			$new = new static($handle);
-
-			return $new;
+			return new static($handle);
 
 			// @codeCoverageIgnoreEnd
 		}
-		else
+
 		// Swap out the current handle for the new image handle.
-		{
-			// Free the memory from the current handle
-			$this->destroy();
+		$this->destroy();
 
-			$this->handle = $handle;
+		$this->handle = $handle;
 
-			return $this;
-		}
+		return $this;
 	}
 
 	/**
