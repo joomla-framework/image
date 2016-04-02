@@ -17,7 +17,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Joomla\\Image\\": "src/",
+            "Joomla\\Image\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Joomla\\Image\\Tests\\": "Tests/"
         }
     },
