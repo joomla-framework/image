@@ -6,7 +6,7 @@
     "homepage": "https://github.com/joomla-framework/image",
     "license": "GPL-2.0+",
     "require": {
-        "php": ">=5.4|>=7.0",
+        "php": "~5.4|~7.0",
         "ext-gd": "*",
         "psr/log": "~1.0"
     },
