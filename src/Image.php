@@ -56,6 +56,24 @@ class Image implements LoggerAwareInterface
 	const SCALE_FIT = 6;
 
 	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  1.0
 	 */
@@ -154,9 +172,9 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 *
+	 * The result object has values for image width, height, type, attributes, mime type, bits, and channels.
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
@@ -187,16 +205,62 @@ class Image implements LoggerAwareInterface
 
 		// Build the response object.
 		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
-			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
+			'width'       => $info[0],
+			'height'      => $info[1],
+			'type'        => $info[2],
+			'attributes'  => $info[3],
+			'bits'        => isset($info['bits']) ? $info['bits'] : null,
+			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'mime'        => $info['mime'],
+			'filesize'    => filesize($path),
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
 		);
 
 		return $properties;
+	}
+
+	/**
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
+	 *
+	 * The orientation will be returned as a string.
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrientation()
+	{
+		if ($this->isLoaded())
+		{
+			return self::getOrientationString($this->getWidth(), $this->getHeight());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param   integer  $width   The width value to use for calculation
+	 * @param   integer  $height  The height value to use for calculation
+	 *
+	 * @return  string   Orientation string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function getOrientationString($width, $height)
+	{
+		switch (true)
+		{
+			case ($width > $height) :
+				return self::ORIENTATION_LANDSCAPE;
+
+			case ($width < $height) :
+				return self::ORIENTATION_PORTRAIT;
+
+			default:
+				return self::ORIENTATION_SQUARE;
+		}
 	}
 
 	/**
