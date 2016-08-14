@@ -823,7 +823,7 @@ class Image implements LoggerAwareInterface
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
 	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
-	 * @return  object  Image Object for chaining.
+	 * @return  Image
 	 *
 	 * @since   1.0
 	 */
