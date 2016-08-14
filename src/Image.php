@@ -645,15 +645,6 @@ class Image implements LoggerAwareInterface
 
 				$this->handle = $handle;
 
-				// Set transparency for non-transparent PNGs.
-				if (!$this->isTransparent())
-				{
-					// Assign to black which is default for transparent PNGs
-					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
-
-					imagecolortransparent($handle, $transparency);
-				}
-
 				break;
 
 			default:
