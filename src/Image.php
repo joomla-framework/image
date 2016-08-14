@@ -832,16 +832,19 @@ class Image implements LoggerAwareInterface
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
+		$resizewidth = $width;
+		$resizeheight = $height;
+
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
 		{
-			$this->resize($width, 0, false);
+			$resizeheight = 0;
 		}
 		else
 		{
-			$this->resize(0, $height, false);
+			$resizewidth = 0;
 		}
 
-		return $this->crop($width, $height, null, null, $createNew);
+		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
 	/**
