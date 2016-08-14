@@ -457,8 +457,8 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -768,8 +768,8 @@ class Image implements LoggerAwareInterface
 			// Make image transparent, otherwise canvas outside initial image would default to black
 			if (!$this->isTransparent())
 			{
-				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
-				imagecolorTransparent($this->handle, $transparency);
+				$transparency = imagecolorallocatealpha($this->handle, 0, 0, 0, 127);
+				imagecolortransparent($this->handle, $transparency);
 			}
 		}
 		else
@@ -784,8 +784,8 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
