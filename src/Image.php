@@ -59,6 +59,24 @@ class Image implements LoggerAwareInterface
 	const SCALE_FIT = 6;
 
 	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  1.0
 	 */
@@ -165,14 +183,60 @@ class Image implements LoggerAwareInterface
 
 		// Build the response object.
 		return (object) [
-			'width'      => $info[0],
-			'height'     => $info[1],
-			'type'       => $info[2],
-			'attributes' => $info[3],
-			'bits'       => isset($info['bits']) ? $info['bits'] : null,
-			'channels'   => isset($info['channels']) ? $info['channels'] : null,
-			'mime'       => $info['mime']
+			'width'       => $info[0],
+			'height'      => $info[1],
+			'type'        => $info[2],
+			'attributes'  => $info[3],
+			'bits'        => isset($info['bits']) ? $info['bits'] : null,
+			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'mime'        => $info['mime'],
+			'filesize'    => filesize($path),
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
 		];
+	}
+
+	/**
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
+	 *
+	 * The orientation will be returned as a string.
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOrientation()
+	{
+		if ($this->isLoaded())
+		{
+			return self::getOrientationString($this->getWidth(), $this->getHeight());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param   integer  $width   The width value to use for calculation
+	 * @param   integer  $height  The height value to use for calculation
+	 *
+	 * @return  string   Orientation string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function getOrientationString($width, $height)
+	{
+		switch (true)
+		{
+			case ($width > $height) :
+				return self::ORIENTATION_LANDSCAPE;
+
+			case ($width < $height) :
+				return self::ORIENTATION_PORTRAIT;
+
+			default:
+				return self::ORIENTATION_SQUARE;
+		}
 	}
 
 	/**
@@ -366,7 +430,7 @@ class Image implements LoggerAwareInterface
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
-			$color = imagecolorallocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -596,15 +660,6 @@ class Image implements LoggerAwareInterface
 
 				$this->handle = $handle;
 
-				// Set transparency for non-transparent PNGs.
-				if (!$this->isTransparent())
-				{
-					// Assign to black which is default for transparent PNGs
-					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
-
-					imagecolortransparent($handle, $transparency);
-				}
-
 				break;
 
 			default:
@@ -681,7 +736,7 @@ class Image implements LoggerAwareInterface
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imagecolorsforindex($this->handle, imagecolortransparent($this->handle));
-			$color = imagecolorallocatealpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -725,16 +780,19 @@ class Image implements LoggerAwareInterface
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
+		$resizewidth = $width;
+		$resizeheight = $height;
+
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
 		{
-			$this->resize($width, 0, false);
+			$resizeheight = 0;
 		}
 		else
 		{
-			$this->resize(0, $height, false);
+			$resizewidth = 0;
 		}
 
-		return $this->crop($width, $height, null, null, $createNew);
+		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
 	/**
@@ -789,6 +847,56 @@ class Image implements LoggerAwareInterface
 		// Swap out the current handle for the new image handle.
 		$this->destroy();
 
+		$this->handle = $handle;
+
+		return $this;
+	}
+
+	/**
+	 * Method to flip the current image.
+	 *
+	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
+	 *                               the current image will be flipped and returned.
+	 *
+	 * @return  Image
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \LogicException
+	 */
+	public function flip($mode, $createNew = true)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new \LogicException('No valid image was loaded.');
+		}
+
+		// Create the new truecolor image handle.
+		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+
+		// Copy the image
+		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
+
+		// Flip the image
+		if (!imageflip($handle, $mode))
+		{
+			throw new \LogicException('Unable to flip the image.');
+		}
+
+		// If we are resizing to a new image, create a new Image object.
+		if ($createNew)
+		{
+			// @codeCoverageIgnoreStart
+			return new static($handle);
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		// Free the memory from the current handle
+		$this->destroy();
+
+		// Swap out the current handle for the new image handle.
 		$this->handle = $handle;
 
 		return $this;
