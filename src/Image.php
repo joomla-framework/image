@@ -57,19 +57,19 @@ class Image implements LoggerAwareInterface
 
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.2.0
 	 */
 	const ORIENTATION_LANDSCAPE = 'landscape';
 
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.2.0
 	 */
 	const ORIENTATION_PORTRAIT = 'portrait';
 
 	/**
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.2.0
 	 */
 	const ORIENTATION_SQUARE = 'square';
 
@@ -226,7 +226,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  mixed   Orientation string or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function getOrientation()
 	{
@@ -246,7 +246,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  string   Orientation string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	private static function getOrientationString($width, $height)
 	{
@@ -916,7 +916,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  Image
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 * @throws  \LogicException
 	 */
 	public function flip($mode, $createNew = true)
