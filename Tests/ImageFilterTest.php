@@ -103,6 +103,8 @@ class ImageFilterTest extends PHPUnit_Framework_TestCase
 	{
 		$mockLogger = $this->getMockForAbstractClass('Psr\\Log\\AbstractLogger');
 
+		$this->instance->setLogger($mockLogger);
+
 		$this->assertSame(
 			$mockLogger,
 			$this->instance->getLogger(),
