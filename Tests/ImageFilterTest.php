@@ -104,11 +104,6 @@ class ImageFilterTest extends PHPUnit_Framework_TestCase
 		$mockLogger = $this->getMockForAbstractClass('Psr\\Log\\AbstractLogger');
 
 		$this->assertSame(
-			$this->instance,
-			$this->instance->setLogger($mockLogger),
-			'The current instance of the application is returned when using setLogger. This is to support chaining.'
-		);
-		$this->assertSame(
 			$mockLogger,
 			$this->instance->getLogger(),
 			'The getLogger method should return the same logger instance that was set via setLogger.'
