@@ -941,15 +941,13 @@ class Image implements LoggerAwareInterface
 	 * @param   integer  $transparency  The transparency to use for the watermark graphic
 	 * @param   integer  $bottomMargin  The margin from the bottom of this image
 	 * @param   integer  $rightMargin   The margin from the right side of this image
-	 * @param   boolean  $createNew     If true the current image will be cloned, watermarked and returned;
-	 *                                  else the current image will be watermarked and returned.
 	 *
 	 * @return  Image
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @see     https://secure.php.net/manual/en/image.examples-watermark.php
 	 */
-	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0, $createNew = true)
+	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
 	{
 		imagecopymerge(
 			$this->getHandle(),
@@ -962,12 +960,6 @@ class Image implements LoggerAwareInterface
 			$watermark->getHeight(),
 			$transparency
 		);
-
-		// If we are watermarking to a new image, create a new object.
-		if ($createNew)
-		{
-			return new static($handle);
-		}
 
 		return $this;
 	}
