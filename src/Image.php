@@ -142,7 +142,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  resource
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 * @throws  \LogicException if an image has not been loaded into the instance
 	 */
 	public function getHandle()
@@ -944,7 +944,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  Image
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.3.0
 	 * @see     https://secure.php.net/manual/en/image.examples-watermark.php
 	 */
 	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
