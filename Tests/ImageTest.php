@@ -9,15 +9,16 @@ namespace Joomla\Image\Tests;
 require_once __DIR__ . '/stubs/ImageInspector.php';
 require_once __DIR__ . '/stubs/ImageFilterInspector.php';
 
-use Joomla\Image\Image as Image;
+use Joomla\Image\Image;
 use Joomla\Test\TestHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends TestCase
 {
 	/**
 	 * @var    Image  The testing instance.

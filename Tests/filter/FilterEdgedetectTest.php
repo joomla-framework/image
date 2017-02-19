@@ -5,13 +5,14 @@
  */
 
 use Joomla\Image\Filter\Edgedetect as FilterEdgedetect;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageFilterEdgedetectTest extends PHPUnit_Framework_TestCase
+class ImageFilterEdgedetectTest extends TestCase
 {
 	/**
 	 * Setup for testing.
