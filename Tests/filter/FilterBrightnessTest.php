@@ -5,13 +5,14 @@
  */
 
 use Joomla\Image\Filter\Brightness as FilterBrightness;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageFilterBrightnessTest extends PHPUnit_Framework_TestCase
+class ImageFilterBrightnessTest extends TestCase
 {
 	/**
 	 * Setup for testing.

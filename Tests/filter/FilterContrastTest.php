@@ -5,13 +5,14 @@
  */
 
 use Joomla\Image\Filter\Contrast as FilterContrast;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageFilterContrastTest extends PHPUnit_Framework_TestCase
+class ImageFilterContrastTest extends TestCase
 {
 	/**
 	 * Setup for testing.

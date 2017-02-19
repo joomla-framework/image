@@ -6,13 +6,14 @@
 
 use Joomla\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test class for Image.
  *
  * @since  1.0
  */
-class ImageFilterBackgroundfillTest extends PHPUnit_Framework_TestCase
+class ImageFilterBackgroundfillTest extends TestCase
 {
 	/**
 	 * Setup for testing.
