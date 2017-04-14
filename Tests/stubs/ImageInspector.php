@@ -48,7 +48,7 @@ class ImageInspector extends Image
 	 * @param   string  $name   The name of the property.
 	 * @param   mixed   $value  The value of the property.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */

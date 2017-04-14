@@ -945,7 +945,7 @@ class Image implements LoggerAwareInterface
 	 * @return  Image
 	 *
 	 * @since   1.3.0
-	 * @see     https://secure.php.net/manual/en/image.examples-watermark.php
+	 * @link    https://secure.php.net/manual/en/image.examples-watermark.php
 	 */
 	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
 	{
@@ -975,7 +975,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @see     http://www.php.net/manual/image.constants.php
+	 * @link    http://www.php.net/manual/image.constants.php
 	 * @since   1.0
 	 * @throws  \LogicException
 	 */
