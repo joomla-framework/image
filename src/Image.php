@@ -98,9 +98,8 @@ class Image implements LoggerAwareInterface
 	protected $logger = null;
 
 	/**
-	 * @var    boolean  True for best quality. False for speed
-	 *
-	 * @since  1.3.1
+	 * @var    boolean  Flag if an image should use the best quality available.  Disable for improved performance.
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $generateBestQuality = true;
 
@@ -1234,7 +1233,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   1.3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{
