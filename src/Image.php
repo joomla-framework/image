@@ -98,6 +98,13 @@ class Image implements LoggerAwareInterface
 	protected $logger = null;
 
 	/**
+	 * @var    boolean  True for best quality. False for speed
+	 *
+	 * @since  1.3.1
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -470,13 +477,16 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
+			$rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized($handle, $this->getHandle(), 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -781,11 +791,37 @@ class Image implements LoggerAwareInterface
 			imagefill($handle, 0, 0, $color);
 		}
 
-		// Use resampling for better quality
-		imagecopyresampled(
-			$handle, $this->getHandle(),
-			$offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight()
-		);
+		if (!$this->generateBestQuality)
+		{
+			imagecopyresized(
+				$handle,
+				$this->getHandle(),
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
+		}
+		else
+		{
+			// Use resampling for better quality
+			imagecopyresampled(
+				$handle,
+				$this->getHandle(),
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
+		}
 
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew)
@@ -1189,5 +1225,19 @@ class Image implements LoggerAwareInterface
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/**
+	 * Method for set option of generate thumbnail method
+	 *
+	 * @param   boolean  $quality  True for best quality. False for best speed.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.3.1
+	 */
+	public function setThumbnailGenerate($quality = true)
+	{
+		$this->generateBestQuality = (boolean) $quality;
 	}
 }
