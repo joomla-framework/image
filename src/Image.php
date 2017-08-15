@@ -212,8 +212,8 @@ class Image implements LoggerAwareInterface
 			'height'      => $info[1],
 			'type'        => $info[2],
 			'attributes'  => $info[3],
-			'bits'        => isset($info['bits']) ? $info['bits'] : null,
-			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'bits'        => $info['bits'] ?? null,
+			'channels'    => $info['channels'] ?? null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
 			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
@@ -249,7 +249,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @since   1.2.0
 	 */
-	private static function getOrientationString($width, $height)
+	private static function getOrientationString(int $width, int $height): string
 	{
 		switch (true)
 		{
@@ -992,7 +992,7 @@ class Image implements LoggerAwareInterface
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
 		// Verify that the filter type exists.
-		$className = 'Joomla\\Image\\Filter\\' . ucfirst($type);
+		$className = __NAMESPACE__ . '\\Filter\\' . ucfirst($type);
 
 		if (!class_exists($className))
 		{
