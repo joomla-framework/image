@@ -71,10 +71,10 @@ use Joomla\Image\Image;
 $image = new Image(JPATH_ROOT . '/media/com_foo/images/uploads/bar.png');
 
 // Resize the image using the SCALE_INSIDE method
-$image->resize(300, 150, true, Image::SCALE_INSIDE);
+$image_resized = $image->resize(300, 150, true, Image::SCALE_INSIDE);
 
 // Write it to disk
-$image->toFile(JPATH_ROOT . '/tmp/bar_resized.png');
+$image_resized->toFile(JPATH_ROOT . '/tmp/bar_resized.png');
 
 ```
 
@@ -97,10 +97,10 @@ use Joomla\Image\Image;
 $image = new Image(JPATH_ROOT . '/media/com_foo/images/uploads/bar.png');
 
 // Crop the image to 150px square, starting 10 pixels from the left, and 20 pixels from the top
-$image->crop(150, null, 10, 20);
+$image_resized = $image->crop(150, null, 10, 20);
 
 // Write it to disk
-$image->toFile(JPATH_ROOT . '/tmp/bar_cropped.png');
+$image_resized->toFile(JPATH_ROOT . '/tmp/bar_cropped.png');
 ```
 
 To crop in image after resizing it to maintain proportions use `cropResize` method with familiar arguments `$width`, `$height` and `$createNew`.
@@ -164,7 +164,7 @@ use Joomla\Image\Image;
 $image = new Image(JPATH_ROOT . '/media/com_foo/images/uploads/bar.png');
 
 // Write to disk
-$image->toFile(JPATH_ROOT . '/tmp/bar.jpg', IMAGETYPEJPEG, array('options' => 65));
+$image->toFile(JPATH_ROOT . '/tmp/bar.jpg', IMAGETYPE_JPEG, array('options' => 65));
 
 ```
 
