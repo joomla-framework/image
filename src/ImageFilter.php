@@ -15,7 +15,8 @@ use Psr\Log\LoggerAwareInterface;
 /**
  * Class to manipulate an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 abstract class ImageFilter implements LoggerAwareInterface
 {

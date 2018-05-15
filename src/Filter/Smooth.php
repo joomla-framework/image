@@ -14,7 +14,8 @@ use InvalidArgumentException;
 /**
  * Image Filter class adjust the smoothness of an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Smooth extends ImageFilter
 {

@@ -13,7 +13,8 @@ use Joomla\Image\ImageFilter;
 /**
  * Image Filter class to transform an image to grayscale.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Grayscale extends ImageFilter
 {

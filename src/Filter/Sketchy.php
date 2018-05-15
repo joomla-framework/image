@@ -13,7 +13,8 @@ use Joomla\Image\ImageFilter;
 /**
  * Image Filter class to make an image appear "sketchy".
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Sketchy extends ImageFilter
 {
