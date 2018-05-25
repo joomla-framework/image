@@ -11,6 +11,9 @@ Manipulating images in raw PHP using the `GD` image* functions requires a lot of
 
 All classes in this package are supported by the auto-loader so can be invoked at any time.
 
+### Deprecated
+
+The `joomla/image` package is deprecated with no future updates planned.
 
 ### Construction
 
