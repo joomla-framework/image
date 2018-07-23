@@ -336,13 +336,13 @@ class Image implements LoggerAwareInterface
 
 				switch ($creationMethod)
 				{
-					// Case for self::CROP
-					case 4:
+					// Crop
+					case self::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
 						break;
 
-					// Case for self::CROP_RESIZE
-					case 5:
+					// Crop-resize
+					case self::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
 						break;
 
