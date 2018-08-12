@@ -8,8 +8,8 @@
 
 namespace Joomla\Image\Filter;
 
-use Joomla\Image\ImageFilter;
 use InvalidArgumentException;
+use Joomla\Image\ImageFilter;
 
 /**
  * Image Filter class adjust the contrast of an image.

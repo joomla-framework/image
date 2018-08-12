@@ -8,9 +8,9 @@
 
 namespace Joomla\Image;
 
-use Psr\Log\NullLogger;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class to manipulate an image.
@@ -126,10 +126,10 @@ class Image implements LoggerAwareInterface
 		// Determine which image types are supported by GD, but only once.
 		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
-			$info = gd_info();
+			$info                            = gd_info();
 			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			static::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) ? true : false;
+			static::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -260,8 +260,6 @@ class Image implements LoggerAwareInterface
 		{
 			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
-
-		return null;
 	}
 
 	/**
@@ -278,10 +276,10 @@ class Image implements LoggerAwareInterface
 	{
 		switch (true)
 		{
-			case ($width > $height) :
+			case $width > $height :
 				return self::ORIENTATION_LANDSCAPE;
 
-			case ($width < $height) :
+			case $width < $height :
 				return self::ORIENTATION_PORTRAIT;
 
 			default:
@@ -418,7 +416,7 @@ class Image implements LoggerAwareInterface
 				if ($thumb->toFile($thumbFileName, $imgProperties->type))
 				{
 					// Return Image object with thumb path to ease further manipulation
-					$thumb->path = $thumbFileName;
+					$thumb->path     = $thumbFileName;
 					$thumbsCreated[] = $thumb;
 				}
 			}
@@ -752,7 +750,7 @@ class Image implements LoggerAwareInterface
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
 		// Instantiate offset.
-		$offset = new \stdClass;
+		$offset    = new \stdClass;
 		$offset->x = $offset->y = 0;
 
 		// Center image if needed and create the new truecolor image handle.
@@ -783,7 +781,7 @@ class Image implements LoggerAwareInterface
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
+			$rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
 			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
@@ -857,7 +855,7 @@ class Image implements LoggerAwareInterface
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
-		$resizewidth = $width;
+		$resizewidth  = $width;
 		$resizeheight = $height;
 
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
@@ -1094,7 +1092,7 @@ class Image implements LoggerAwareInterface
 		switch ($scaleMethod)
 		{
 			case self::SCALE_FILL:
-				$dimensions->width = (int) round($width);
+				$dimensions->width  = (int) round($width);
 				$dimensions->height = (int) round($height);
 				break;
 
@@ -1113,7 +1111,7 @@ class Image implements LoggerAwareInterface
 					$ratio = min($rx, $ry);
 				}
 
-				$dimensions->width = (int) round($this->getWidth() / $ratio);
+				$dimensions->width  = (int) round($this->getWidth() / $ratio);
 				$dimensions->height = (int) round($this->getHeight() / $ratio);
 				break;
 
