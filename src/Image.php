@@ -84,7 +84,7 @@ class Image implements LoggerAwareInterface
 	 * @var    string  The source image path.
 	 * @since  1.0
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    array  Whether or not different image formats are supported.
@@ -96,7 +96,7 @@ class Image implements LoggerAwareInterface
 	 * @var    LoggerInterface  Logger object
 	 * @since  1.0
 	 */
-	protected $logger = null;
+	protected $logger;
 
 	/**
 	 * @var    boolean  Flag if an image should use the best quality available.  Disable for improved performance.
@@ -115,7 +115,7 @@ class Image implements LoggerAwareInterface
 	public function __construct($source = null)
 	{
 		// Verify that GD support for PHP is available.
-		if (!extension_loaded('gd'))
+		if (!\extension_loaded('gd'))
 		{
 			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('The GD extension for PHP is not available.');
@@ -133,11 +133,11 @@ class Image implements LoggerAwareInterface
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if (is_resource($source) && (get_resource_type($source) == 'gd'))
+		if (\is_resource($source) && (get_resource_type($source) == 'gd'))
 		{
 			$this->handle = &$source;
 		}
-		elseif (!empty($source) && is_string($source))
+		elseif (!empty($source) && \is_string($source))
 		{
 			// If the source input is not empty, assume it is a path and populate the image handle.
 			$this->loadFile($source);
@@ -309,7 +309,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// Accept a single thumbsize string as parameter
-		if (!is_array($thumbSizes))
+		if (!\is_array($thumbSizes))
 		{
 			$thumbSizes = array($thumbSizes);
 		}
@@ -324,7 +324,7 @@ class Image implements LoggerAwareInterface
 				// Desired thumbnail size
 				$size = explode('x', strtolower($thumbSize));
 
-				if (count($size) != 2)
+				if (\count($size) != 2)
 				{
 					throw new \InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
 				}
@@ -385,11 +385,11 @@ class Image implements LoggerAwareInterface
 		// No thumbFolder set -> we will create a thumbs folder in the current image folder
 		if ($thumbsFolder === null)
 		{
-			$thumbsFolder = dirname($this->getPath()) . '/thumbs';
+			$thumbsFolder = \dirname($this->getPath()) . '/thumbs';
 		}
 
 		// Check destination
-		if (!is_dir($thumbsFolder) && (!is_dir(dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
+		if (!is_dir($thumbsFolder) && (!is_dir(\dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
 		{
 			throw new \InvalidArgumentException('Folder does not exist and cannot be created: ' . $thumbsFolder);
 		}
@@ -589,7 +589,7 @@ class Image implements LoggerAwareInterface
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if (!is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		if (!\is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
 		{
 			return false;
 		}
@@ -653,7 +653,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
 
-				if (!is_resource($handle))
+				if (!\is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
@@ -680,7 +680,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
 
-				if (!is_resource($handle))
+				if (!\is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
@@ -707,7 +707,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
 
-				if (!is_resource($handle))
+				if (!\is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
