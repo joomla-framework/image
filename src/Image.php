@@ -337,15 +337,18 @@ class Image implements LoggerAwareInterface
 					// Crop
 					case self::CROP:
 						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
+
 						break;
 
 					// Crop-resize
 					case self::CROP_RESIZE:
 						$thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
+
 						break;
 
 					default:
 						$thumb = $this->resize($thumbWidth, $thumbHeight, true, $creationMethod);
+
 						break;
 				}
 
@@ -659,6 +662,7 @@ class Image implements LoggerAwareInterface
 				}
 
 				$this->handle = $handle;
+
 				break;
 
 			case 'image/jpeg':
@@ -685,6 +689,7 @@ class Image implements LoggerAwareInterface
 				}
 
 				$this->handle = $handle;
+
 				break;
 
 			case 'image/png':
@@ -1019,11 +1024,9 @@ class Image implements LoggerAwareInterface
 		{
 			case IMAGETYPE_GIF:
 				return imagegif($this->getHandle(), $path);
-				break;
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
-				break;
 		}
 
 		// Case IMAGETYPE_JPEG & default
@@ -1094,6 +1097,7 @@ class Image implements LoggerAwareInterface
 			case self::SCALE_FILL:
 				$dimensions->width  = (int) round($width);
 				$dimensions->height = (int) round($height);
+
 				break;
 
 			case self::SCALE_INSIDE:
@@ -1113,11 +1117,11 @@ class Image implements LoggerAwareInterface
 
 				$dimensions->width  = (int) round($this->getWidth() / $ratio);
 				$dimensions->height = (int) round($this->getHeight() / $ratio);
+
 				break;
 
 			default:
 				throw new \InvalidArgumentException('Invalid scale method.');
-				break;
 		}
 
 		return $dimensions;
@@ -1196,8 +1200,7 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to destroy an image handle and
-	 * free the memory associated with the handle
+	 * Method to destroy an image handle and free the memory associated with the handle
 	 *
 	 * @return  boolean  True on success, false on failure or if no image is loaded
 	 *
@@ -1214,8 +1217,7 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to call the destroy() method one last time
-	 * to free any memory when the object is unset
+	 * Method to call the destroy() method one last time to free any memory when the object is unset
 	 *
 	 * @see    Image::destroy()
 	 * @since  1.0
