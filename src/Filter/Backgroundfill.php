@@ -102,8 +102,8 @@ class Backgroundfill extends ImageFilter
 			$colors = array_merge($colors, $input);
 		}
 		elseif (is_string($input))
-		// Convert RGBA 6-9 char string
 		{
+			// Convert RGBA 6-9 char string
 			$hex = ltrim($input, '#');
 
 			$hexValues = array(
@@ -122,8 +122,8 @@ class Backgroundfill extends ImageFilter
 			}
 		}
 		else
-		// Cannot sanitize such type
 		{
+			// Cannot sanitize such type
 			return $colors;
 		}
 
