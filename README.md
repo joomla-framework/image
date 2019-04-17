@@ -5,7 +5,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/joomla/image/v/unstable)](https://packagist.org/packages/joomla/image)
 [![License](https://poser.pugx.org/joomla/image/license)](https://packagist.org/packages/joomla/image)
 
-This package comprises of 2 main classes, `Image` and `ImageFilter` which has 8 filter sub-classes that it can use to apply a desired filter to your image. `Image` depends on the `GD` php extension to be loaded on your server. More information on `GD` can be found at: http://php.net/manual/en/book.image.php
+This package comprises of 2 main classes, `Image` and `ImageFilter` which has 8 filter sub-classes that it can use to apply a desired filter to your image. `Image` depends on the `GD` php extension to be loaded on your server. More information on `GD` can be found at: https://www.php.net/manual/en/book.image.php
 
 Manipulating images in raw PHP using the `GD` image* functions requires a lot of boilerplate code. The intent of this package is to handle those requirements and make it simple for developers to accomplish those tasks through easy to use (and remember) methods.
 

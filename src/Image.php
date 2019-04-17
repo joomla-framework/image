@@ -932,7 +932,7 @@ class Image implements LoggerAwareInterface
 	/**
 	 * Method to flip the current image.
 	 *
-	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   integer  $mode       The flip mode for flipping the image {@link https://www.php.net/imageflip#refsect1-function.imageflip-parameters}
 	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
 	 *                               the current image will be flipped and returned.
 	 *
@@ -984,7 +984,7 @@ class Image implements LoggerAwareInterface
 	 * @return  Image
 	 *
 	 * @since   1.3.0
-	 * @link    https://secure.php.net/manual/en/image.examples-watermark.php
+	 * @link    https://www.php.net/manual/en/image.examples-watermark.php
 	 */
 	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
 	{
@@ -1014,7 +1014,7 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @link    http://www.php.net/manual/image.constants.php
+	 * @link    https://www.php.net/manual/image.constants.php
 	 * @since   1.0
 	 * @throws  \LogicException
 	 */
