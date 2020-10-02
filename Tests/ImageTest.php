@@ -808,6 +808,8 @@ class ImageTest extends TestCase
 	 */
 	public function testGenerateThumbsWithInvalidFolder()
 	{
+		$this->markTestSkipped('Since we are root, we can write anywhere.');
+
 		// Create a new Image object without loading an image.
 		$image = new Image;
 		$image->loadFile($this->testFile);

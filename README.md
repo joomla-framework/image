@@ -1,4 +1,4 @@
-## The Image Package [![Build Status](https://travis-ci.org/joomla-framework/image.png?branch=master)](https://travis-ci.org/joomla-framework/image)
+## The Image Package [![Build Status](https://ci.joomla.org/api/badges/joomla-framework/image/status.svg)](https://ci.joomla.org/joomla-framework/image)
 
 [![Latest Stable Version](https://poser.pugx.org/joomla/image/v/stable)](https://packagist.org/packages/joomla/image)
 [![Total Downloads](https://poser.pugx.org/joomla/image/downloads)](https://packagist.org/packages/joomla/image)
