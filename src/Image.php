@@ -75,7 +75,7 @@ class Image implements LoggerAwareInterface
 	const ORIENTATION_SQUARE = 'square';
 
 	/**
-	 * @var    resource  The image resource handle.
+	 * @var    resource|\GdImage  The image resource handle.
 	 * @since  1.0
 	 */
 	protected $handle;
@@ -133,7 +133,7 @@ class Image implements LoggerAwareInterface
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if (\is_resource($source) && (get_resource_type($source) == 'gd'))
+		if ($this->isValidImage($source))
 		{
 			$this->handle = &$source;
 		}
@@ -589,13 +589,7 @@ class Image implements LoggerAwareInterface
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if ((!\is_resource($this->handle) || get_resource_type($this->handle) !== 'gd') 
-			&&  (!is_object($this->handle) && !($this->handle instanceof \GDImage)))
-		{
-			return false;
-		}
-
-		return true;
+		return $this->isValidImage($this->handle);
 	}
 
 	/**
@@ -654,7 +648,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
 
-				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
+				if (!$this->isValidImage($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
@@ -681,7 +675,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
 
-				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
+				if (!$this->isValidImage($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
@@ -708,7 +702,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
 
-				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
+				if (!$this->isValidImage($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
@@ -1240,5 +1234,17 @@ class Image implements LoggerAwareInterface
 	public function setThumbnailGenerate($quality = true)
 	{
 		$this->generateBestQuality = (boolean) $quality;
+	}
+
+	/**
+	 * @param $handle
+	 *
+	 * @return bool
+	 */
+	private function isValidImage($handle)
+	{
+		// @todo Remove resource check, once PHP7 support is dropped.
+		return (\is_resource($handle) && \get_resource_type($handle) === 'gd')
+			   || (\is_object($handle) && $handle instanceof \GDImage);
 	}
 }
