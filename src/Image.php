@@ -589,7 +589,8 @@ class Image implements LoggerAwareInterface
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if (!\is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		if ((!\is_resource($this->handle) || get_resource_type($this->handle) !== 'gd') 
+			&&  (!is_object($this->handle) && !($this->handle instanceof \GDImage)))
 		{
 			return false;
 		}
@@ -653,7 +654,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
 
-				if (!\is_resource($handle))
+				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
@@ -680,7 +681,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
 
-				if (!\is_resource($handle))
+				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
@@ -707,7 +708,7 @@ class Image implements LoggerAwareInterface
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
 
-				if (!\is_resource($handle))
+				if (!\is_resource($handle) && (!is_object($handle) && !($handle instanceOf \GdImage)))
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
