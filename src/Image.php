@@ -1237,9 +1237,9 @@ class Image implements LoggerAwareInterface
 	}
 
 	/**
-	 * @param $handle
+	 * @param mixed $handle A potential image handle
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	private function isValidImage($handle)
 	{
