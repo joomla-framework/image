@@ -40,38 +40,38 @@ class Backgroundfill extends ImageFilter
 		$colorCode = $options['color'] ?? null;
 
 		// Get resource dimensions
-		$width = imagesx($this->handle);
+		$width  = imagesx($this->handle);
 		$height = imagesy($this->handle);
 
 		// Sanitize color
 		$rgba = $this->sanitizeColor($colorCode);
 
 		// Enforce alpha on source image
-		if (imageistruecolor($this->handle))
+		if (imageIsTrueColor($this->handle))
 		{
-			imagealphablending($this->handle, false);
-			imagesavealpha($this->handle, true);
+			imageAlphaBlending($this->handle, false);
+			imageSaveAlpha($this->handle, true);
 		}
 
 		// Create background
-		$bg = imagecreatetruecolor($width, $height);
-		imagesavealpha($bg, empty($rgba['alpha']));
+		$bg = imageCreateTruecolor($width, $height);
+		imageSaveAlpha($bg, empty($rgba['alpha']));
 
 		// Allocate background color.
-		$color = imagecolorallocatealpha($bg, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+		$color = imageColorAllocateAlpha($bg, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 		// Fill background
-		imagefill($bg, 0, 0, $color);
+		imageFill($bg, 0, 0, $color);
 
 		// Apply image over background
-		imagecopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
+		imageCopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
 
 		// Move flattened result onto curent handle.
 		// If handle was palette-based, it'll stay like that.
-		imagecopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
+		imageCopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
 
 		// Free up memory
-		imagedestroy($bg);
+		imageDestroy($bg);
 
 		return;
 	}
@@ -93,13 +93,13 @@ class Backgroundfill extends ImageFilter
 		$colors = ['red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0];
 
 		// Make sure all values are in
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			$colors = array_merge($colors, $input);
 		}
-		elseif (is_string($input))
-		// Convert RGBA 6-9 char string
+		elseif (\is_string($input))
 		{
+			// Convert RGBA 6-9 char string
 			$hex = ltrim($input, '#');
 
 			$hexValues = [
@@ -112,14 +112,14 @@ class Backgroundfill extends ImageFilter
 			$colors = array_map('hexdec', $hexValues);
 
 			// Convert Alpha to 0..127 when provided
-			if (strlen($hex) > 6)
+			if (\strlen($hex) > 6)
 			{
 				$colors['alpha'] = floor((255 - $colors['alpha']) / 2);
 			}
 		}
 		else
-		// Cannot sanitize such type
 		{
+			// Cannot sanitize such type
 			return $colors;
 		}
 
