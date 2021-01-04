@@ -8,10 +8,10 @@
 
 namespace Joomla\Image;
 
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\NullLogger;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class to manipulate an image.
@@ -96,12 +96,6 @@ class Image implements LoggerAwareInterface
 	protected static $formats = [];
 
 	/**
-	 * @var    LoggerInterface  Logger object
-	 * @since  1.0
-	 */
-	protected $logger;
-
-	/**
 	 * @var    boolean  Flag if an image should use the best quality available.  Disable for improved performance.
 	 * @since  1.4.0
 	 */
@@ -122,7 +116,6 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('The GD extension for PHP is not available.');
-
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -176,28 +169,12 @@ class Image implements LoggerAwareInterface
 	public function getLogger()
 	{
 		// If a logger hasn't been set, use NullLogger
-		if (! ($this->logger instanceof LoggerInterface))
+		if (!($this->logger instanceof LoggerInterface))
 		{
 			$this->logger = new NullLogger;
 		}
 
 		return $this->logger;
-	}
-
-	/**
-	 * Sets a logger instance on the object
-	 *
-	 * @param   LoggerInterface  $logger  A PSR-3 compliant logger.
-	 *
-	 * @return  Image  This object for message chaining.
-	 *
-	 * @since   1.0
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-
-		return $this;
 	}
 
 	/**
@@ -228,12 +205,11 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('Unable to get properties for the image.');
-
 			// @codeCoverageIgnoreEnd
 		}
 
 		// Build the response object.
-		return (object) [
+		return (object)[
 			'width'       => $info[0],
 			'height'      => $info[1],
 			'type'        => $info[2],
@@ -242,7 +218,7 @@ class Image implements LoggerAwareInterface
 			'channels'    => $info['channels'] ?? null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
+			'orientation' => self::getOrientationString((int)$info[0], (int)$info[1]),
 		];
 	}
 
@@ -401,13 +377,13 @@ class Image implements LoggerAwareInterface
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth     = $thumb->getWidth();
-				$thumbHeight    = $thumb->getHeight();
+				$thumbWidth  = $thumb->getWidth();
+				$thumbHeight = $thumb->getHeight();
 
 				// Generate thumb name
-				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
-				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$filename      = pathinfo($this->getPath(), PATHINFO_FILENAME);
+				$fileExtension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -513,8 +489,8 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  Image
 	 *
-	 * @since   1.0
 	 * @see     Joomla\Image\Filter
+	 * @since   1.0
 	 * @throws  \LogicException
 	 */
 	public function filter($type, array $options = [])
@@ -563,9 +539,9 @@ class Image implements LoggerAwareInterface
 	/**
 	 * Method to return the path
 	 *
-	 * @return	string
+	 * @return    string
 	 *
-	 * @since	1.0
+	 * @since    1.0
 	 */
 	public function getPath()
 	{
@@ -634,7 +610,6 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type GIF.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type GIF.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -645,7 +620,6 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -660,7 +634,6 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type JPG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type JPG.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -671,7 +644,6 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -686,7 +658,6 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type PNG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type PNG.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -697,7 +668,6 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
-
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -708,7 +678,9 @@ class Image implements LoggerAwareInterface
 			default:
 				$this->getLogger()->error('Attempting to load an image of unsupported type ' . $properties->mime);
 
-				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
+				throw new \InvalidArgumentException(
+					'Attempting to load an image of unsupported type ' . $properties->mime
+				);
 		}
 
 		// Set the filesystem path to the source image.
@@ -840,8 +812,8 @@ class Image implements LoggerAwareInterface
 	 */
 	public function cropResize($width, $height, $createNew = true)
 	{
-		$width   = $this->sanitizeWidth($width, $height);
-		$height  = $this->sanitizeHeight($height, $width);
+		$width  = $this->sanitizeWidth($width, $height);
+		$height = $this->sanitizeHeight($height, $width);
 
 		$resizewidth  = $width;
 		$resizeheight = $height;
@@ -874,7 +846,7 @@ class Image implements LoggerAwareInterface
 	public function rotate($angle, $background = -1, $createNew = true)
 	{
 		// Sanitize input
-		$angle = (float) $angle;
+		$angle = (float)$angle;
 
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
@@ -900,7 +872,6 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			return new static($handle);
-
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -943,7 +914,6 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			return new static($handle);
-
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -966,8 +936,8 @@ class Image implements LoggerAwareInterface
 	 *
 	 * @return  Image
 	 *
-	 * @since   1.3.0
 	 * @link    https://www.php.net/manual/en/image.examples-watermark.php
+	 * @since   1.3.0
 	 */
 	public function watermark(Image $watermark, $transparency = 50, $bottomMargin = 0, $rightMargin = 0)
 	{
@@ -1009,11 +979,19 @@ class Image implements LoggerAwareInterface
 				return imagegif($this->getHandle(), $path);
 
 			case IMAGETYPE_PNG:
-				return imagepng($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				return imagepng(
+					$this->getHandle(),
+					$path,
+					(array_key_exists('quality', $options)) ? $options['quality'] : 0
+				);
 		}
 
 		// Case IMAGETYPE_JPEG & default
-		return imagejpeg($this->getHandle(), $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+		return imagejpeg(
+			$this->getHandle(),
+			$path,
+			(array_key_exists('quality', $options)) ? $options['quality'] : 100
+		);
 	}
 
 	/**
@@ -1051,7 +1029,6 @@ class Image implements LoggerAwareInterface
 			$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
-
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -1078,8 +1055,8 @@ class Image implements LoggerAwareInterface
 		switch ($scaleMethod)
 		{
 			case self::SCALE_FILL:
-				$dimensions->width  = (int) round($width);
-				$dimensions->height = (int) round($height);
+				$dimensions->width  = (int)round($width);
+				$dimensions->height = (int)round($height);
 				break;
 
 			case self::SCALE_INSIDE:
@@ -1097,8 +1074,8 @@ class Image implements LoggerAwareInterface
 					$ratio = min($rx, $ry);
 				}
 
-				$dimensions->width  = (int) round($this->getWidth() / $ratio);
-				$dimensions->height = (int) round($this->getHeight() / $ratio);
+				$dimensions->width  = (int)round($this->getWidth() / $ratio);
+				$dimensions->height = (int)round($this->getHeight() / $ratio);
 				break;
 
 			default:
@@ -1126,12 +1103,12 @@ class Image implements LoggerAwareInterface
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
 		{
-			$height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
+			$height = (int)round($this->getHeight() * (float)str_replace('%', '', $height) / 100);
 		}
 		else
 		{
 			// Else do some rounding so we come out with a sane integer value.
-			$height = (int) round((float) $height);
+			$height = (int)round((float)$height);
 		}
 
 		return $height;
@@ -1148,7 +1125,7 @@ class Image implements LoggerAwareInterface
 	 */
 	protected function sanitizeOffset($offset)
 	{
-		return (int) round((float) $offset);
+		return (int)round((float)$offset);
 	}
 
 	/**
@@ -1169,12 +1146,12 @@ class Image implements LoggerAwareInterface
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
 		{
-			$width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
+			$width = (int)round($this->getWidth() * (float)str_replace('%', '', $width) / 100);
 		}
 		else
 		{
 			// Else do some rounding so we come out with a sane integer value.
-			$width = (int) round((float) $width);
+			$width = (int)round((float)$width);
 		}
 
 		return $width;
@@ -1219,7 +1196,7 @@ class Image implements LoggerAwareInterface
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{
-		$this->generateBestQuality = (boolean) $quality;
+		$this->generateBestQuality = (boolean)$quality;
 	}
 
 	/**

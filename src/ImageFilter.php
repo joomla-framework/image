@@ -30,12 +30,6 @@ abstract class ImageFilter implements LoggerAwareInterface
 	protected $handle;
 
 	/**
-	 * @var    LoggerInterface  Logger object
-	 * @since  1.0
-	 */
-	protected $logger;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   resource|\GdImage  $handle  The image resource on which to apply the filter.
@@ -53,7 +47,6 @@ abstract class ImageFilter implements LoggerAwareInterface
 			$this->getLogger()->error('The imagefilter function for PHP is not available.');
 
 			throw new \RuntimeException('The imagefilter function for PHP is not available.');
-
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -78,7 +71,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 	public function getLogger()
 	{
 		// If a logger hasn't been set, use NullLogger
-		if (! ($this->logger instanceof LoggerInterface))
+		if (!($this->logger instanceof LoggerInterface))
 		{
 			$this->logger = new NullLogger;
 		}
