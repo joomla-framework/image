@@ -121,7 +121,7 @@ local pipeline(name, phpversion, params) = {
                     "composer update phpunit/phpunit-mock-objects"
                 ]
             },
-            phpunit("5.3")
+            phpunit("7.2")
         ]
     },
     pipeline("7.2", "7.2", "--prefer-stable"),
