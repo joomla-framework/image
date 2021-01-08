@@ -21,7 +21,7 @@ steps:
   image: joomlaprojects/docker-images:php7.4
   commands:
   - vendor/bin/phpcs --config-set installed_paths vendor/joomla/coding-standards
-  - vendor/bin/phpcs -p --report=full --extensions=php --standard=Joomla src/
+  - vendor/bin/phpcs -p --report=full --extensions=php --standard=ruleset.xml src/
 
 - name: phpmd
   image: joomlaprojects/docker-images:php7.4
@@ -70,7 +70,6 @@ steps:
   commands:
   - php -v
   - composer update --prefer-stable --prefer-lowest
-  - composer update phpunit/phpunit-mock-objects
   volumes:
   - name: composer-cache
     path: /tmp/composer-cache
@@ -200,6 +199,6 @@ volumes:
 
 ---
 kind: signature
-hmac: 6ff284cbb9ebd416bf7d215237d55c9208868d4c7d4ff586f1321d1d74398b10
+hmac: ea4ce0c1130bd670c5ffe4d004079c7a9f8871593230796824756221d23aec0f
 
 ...

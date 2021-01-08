@@ -61,7 +61,7 @@ local pipeline(name, phpversion, params) = {
                 depends: [ "composer" ],
                 commands: [
                     "vendor/bin/phpcs --config-set installed_paths vendor/joomla/coding-standards",
-                    "vendor/bin/phpcs -p --report=full --extensions=php --standard=Joomla src/"
+                    "vendor/bin/phpcs -p --report=full --extensions=php --standard=ruleset.xml src/"
                 ]
             },
             {
@@ -106,24 +106,7 @@ local pipeline(name, phpversion, params) = {
             }
         ]
     },
-    {
-        kind: "pipeline",
-        name: "PHP 7.2 lowest",
-        volumes: hostvolumes,
-        steps: [
-            {
-                name: "composer",
-                image: "joomlaprojects/docker-images:php7.2",
-                volumes: volumes,
-                commands: [
-                    "php -v",
-                    "composer update --prefer-stable --prefer-lowest",
-                    "composer update phpunit/phpunit-mock-objects"
-                ]
-            },
-            phpunit("7.2")
-        ]
-    },
+    pipeline("7.2 lowest", "7.2", "--prefer-stable --prefer-lowest"),
     pipeline("7.2", "7.2", "--prefer-stable"),
     pipeline("7.3", "7.3", "--prefer-stable"),
     pipeline("7.4", "7.4", "--prefer-stable"),
