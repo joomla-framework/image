@@ -612,6 +612,7 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type GIF.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type GIF.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -622,6 +623,7 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process GIF image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -636,6 +638,7 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type JPG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type JPG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -646,6 +649,7 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process JPG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -660,6 +664,7 @@ class Image implements LoggerAwareInterface
 					$this->getLogger()->error('Attempting to load an image of unsupported type PNG.');
 
 					throw new \RuntimeException('Attempting to load an image of unsupported type PNG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -670,6 +675,7 @@ class Image implements LoggerAwareInterface
 				{
 					// @codeCoverageIgnoreStart
 					throw new \RuntimeException('Unable to process PNG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -912,9 +918,7 @@ class Image implements LoggerAwareInterface
 		// If we are resizing to a new image, create a new Image object.
 		if ($createNew)
 		{
-			// @codeCoverageIgnoreStart
 			return new static($handle);
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Free the memory from the current handle
@@ -1029,6 +1033,7 @@ class Image implements LoggerAwareInterface
 			$this->getLogger()->error('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
