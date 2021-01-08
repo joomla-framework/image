@@ -116,6 +116,7 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('The GD extension for PHP is not available.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -205,11 +206,12 @@ class Image implements LoggerAwareInterface
 		{
 			// @codeCoverageIgnoreStart
 			throw new \RuntimeException('Unable to get properties for the image.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
 		// Build the response object.
-		return (object)[
+		return (object) [
 			'width'       => $info[0],
 			'height'      => $info[1],
 			'type'        => $info[2],
@@ -218,7 +220,7 @@ class Image implements LoggerAwareInterface
 			'channels'    => $info['channels'] ?? null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int)$info[0], (int)$info[1]),
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
 		];
 	}
 
@@ -846,7 +848,7 @@ class Image implements LoggerAwareInterface
 	public function rotate($angle, $background = -1, $createNew = true)
 	{
 		// Sanitize input
-		$angle = (float)$angle;
+		$angle = (float) $angle;
 
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
@@ -870,9 +872,7 @@ class Image implements LoggerAwareInterface
 		// If we are resizing to a new image, create a new Image object.
 		if ($createNew)
 		{
-			// @codeCoverageIgnoreStart
 			return new static($handle);
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Swap out the current handle for the new image handle.
@@ -1055,8 +1055,8 @@ class Image implements LoggerAwareInterface
 		switch ($scaleMethod)
 		{
 			case self::SCALE_FILL:
-				$dimensions->width  = (int)round($width);
-				$dimensions->height = (int)round($height);
+				$dimensions->width  = (int) round($width);
+				$dimensions->height = (int) round($height);
 				break;
 
 			case self::SCALE_INSIDE:
@@ -1074,8 +1074,8 @@ class Image implements LoggerAwareInterface
 					$ratio = min($rx, $ry);
 				}
 
-				$dimensions->width  = (int)round($this->getWidth() / $ratio);
-				$dimensions->height = (int)round($this->getHeight() / $ratio);
+				$dimensions->width  = (int) round($this->getWidth() / $ratio);
+				$dimensions->height = (int) round($this->getHeight() / $ratio);
 				break;
 
 			default:
@@ -1103,12 +1103,12 @@ class Image implements LoggerAwareInterface
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
 		{
-			$height = (int)round($this->getHeight() * (float)str_replace('%', '', $height) / 100);
+			$height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
 		}
 		else
 		{
 			// Else do some rounding so we come out with a sane integer value.
-			$height = (int)round((float)$height);
+			$height = (int) round((float) $height);
 		}
 
 		return $height;
@@ -1125,7 +1125,7 @@ class Image implements LoggerAwareInterface
 	 */
 	protected function sanitizeOffset($offset)
 	{
-		return (int)round((float)$offset);
+		return (int) round((float) $offset);
 	}
 
 	/**
@@ -1146,12 +1146,12 @@ class Image implements LoggerAwareInterface
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
 		{
-			$width = (int)round($this->getWidth() * (float)str_replace('%', '', $width) / 100);
+			$width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
 		}
 		else
 		{
 			// Else do some rounding so we come out with a sane integer value.
-			$width = (int)round((float)$width);
+			$width = (int) round((float) $width);
 		}
 
 		return $width;
@@ -1196,7 +1196,7 @@ class Image implements LoggerAwareInterface
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{
-		$this->generateBestQuality = (boolean)$quality;
+		$this->generateBestQuality = (bool) $quality;
 	}
 
 	/**

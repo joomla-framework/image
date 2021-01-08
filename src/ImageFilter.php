@@ -47,6 +47,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 			$this->getLogger()->error('The imagefilter function for PHP is not available.');
 
 			throw new \RuntimeException('The imagefilter function for PHP is not available.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
