@@ -76,7 +76,7 @@ steps:
     path: /tmp/composer-cache
 
 - name: PHPUnit
-  image: joomlaprojects/docker-images:php5.3
+  image: joomlaprojects/docker-images:php7.2
   commands:
   - vendor/bin/phpunit
 
@@ -200,6 +200,6 @@ volumes:
 
 ---
 kind: signature
-hmac: 7ab99611a17f6c91a4434a6800eae413c2f845d5fdf35b008564d9c9c4936e80
+hmac: 6ff284cbb9ebd416bf7d215237d55c9208868d4c7d4ff586f1321d1d74398b10
 
 ...
