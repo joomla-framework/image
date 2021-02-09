@@ -167,7 +167,7 @@ use Joomla\Image\Image;
 $image = new Image(JPATH_ROOT . '/media/com_foo/images/uploads/bar.png');
 
 // Write to disk
-$image->toFile(JPATH_ROOT . '/tmp/bar.jpg', IMAGETYPE_JPEG, array('options' => 65));
+$image->toFile(JPATH_ROOT . '/tmp/bar.jpg', IMAGETYPE_JPEG, array('quality' => 65));
 
 ```
 
